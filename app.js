@@ -188,5 +188,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     // attach to button
     start()
-
 })
+
+console.log("Welcome to my Doodle Jump game by Drake! Enjoy")
