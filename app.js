@@ -1,13 +1,13 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const grid = document.querySelector(".grid");
-    const doodler = document.createElement("div");
-    const gravity = 0.9
-    let doodlerLeftSpace = 50
-    let startPoint = 150
-    let doodlerBottomSpace = startPoint
+document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.querySelector('.grid')
+    const doodler = document.createElement('div')
     let isGameOver = false
     let platformCount = 5
     let platforms = []
+    let score = 0
+    let doodlerLeftSpace = 50
+    let startPoint = 150
+    let doodlerBottomSpace = startPoint
     let upTimerId
     let downTimerId
     let isJumping = true
@@ -15,21 +15,21 @@ document.addEventListener("DOMContentLoaded", () => {
     let isGoingRight = false
     let leftTimerId
     let rightTimerId
-    let score = 0
-    let speed = 3
+
     class Platform {
         constructor(newPlatBottom) {
             this.left = Math.random() * 315
             this.bottom = newPlatBottom
-            this.visual = document.createElement("div")
+            this.visual = document.createElement('div')
 
             const visual = this.visual
-            visual.classList.add("platform")
-            visual.style.left = this.left + "px"
-            visual.style.bottom = this.bottom + "px"
+            visual.classList.add('platform')
+            visual.style.left = this.left + 'px'
+            visual.style.bottom = this.bottom + 'px'
             grid.appendChild(visual)
         }
     }
+
 
     function createPlatforms() {
         for (let i = 0; i < platformCount; i++) {
@@ -46,28 +46,28 @@ document.addEventListener("DOMContentLoaded", () => {
             platforms.forEach(platform => {
                 platform.bottom -= 4
                 let visual = platform.visual
-                visual.style.bottom = platform.bottom + "px"
+                visual.style.bottom = platform.bottom + 'px'
 
                 if (platform.bottom < 10) {
                     let firstPlatform = platforms[0].visual
-                    firstPlatform.classList.remove("platform")
+                    firstPlatform.classList.remove('platform')
                     platforms.shift()
-                    console.log.apply(platforms)
+                    console.log(platforms)
                     score++
-                    let newPlatform = new Platform(600)
+                    var newPlatform = new Platform(600)
                     platforms.push(newPlatform)
                 }
             })
         }
+
     }
 
     function createDoodler() {
         grid.appendChild(doodler)
-        doodler.classList.add("doodler")
+        doodler.classList.add('doodler')
         doodlerLeftSpace = platforms[0].left
-        doodler.style.left = doodlerLeftSpace + "px"
-        doodler.style.bottom = doodlerBottomSpace + "px"
-
+        doodler.style.left = doodlerLeftSpace + 'px'
+        doodler.style.bottom = doodlerBottomSpace + 'px'
     }
 
     function fall() {
@@ -75,22 +75,22 @@ document.addEventListener("DOMContentLoaded", () => {
         clearInterval(upTimerId)
         downTimerId = setInterval(function () {
             doodlerBottomSpace -= 5
-            doodler.style.bottom = doodlerBottomSpace + "px"
+            doodler.style.bottom = doodlerBottomSpace + 'px'
             if (doodlerBottomSpace <= 0) {
                 gameOver()
             }
             platforms.forEach(platform => {
                 if (
                     (doodlerBottomSpace >= platform.bottom) &&
-                    (doodlerBottomSpace <= platform.bottom + 15) &&
+                    (doodlerBottomSpace <= (platform.bottom + 15)) &&
                     ((doodlerLeftSpace + 60) >= platform.left) &&
                     (doodlerLeftSpace <= (platform.left + 85)) &&
                     !isJumping
                 ) {
-                    console.log("landed")
+                    console.log('tick')
                     startPoint = doodlerBottomSpace
                     jump()
-                    console.log("start", startPoint)
+                    console.log('start', startPoint)
                     isJumping = true
                 }
             })
@@ -103,12 +103,12 @@ document.addEventListener("DOMContentLoaded", () => {
         isJumping = true
         upTimerId = setInterval(function () {
             console.log(startPoint)
-            console.log("1", doodlerBottomSpace)
+            console.log('1', doodlerBottomSpace)
             doodlerBottomSpace += 20
-            doodler.style.bottom = doodlerBottomSpace + "px"
-            console.log("2", doodlerBottomSpace)
-            console.log("s", startPoint)
-            if (doodlerBottomSpace > startPoint + 200) {
+            doodler.style.bottom = doodlerBottomSpace + 'px'
+            console.log('2', doodlerBottomSpace)
+            console.log('s', startPoint)
+            if (doodlerBottomSpace > (startPoint + 200)) {
                 fall()
                 isJumping = false
             }
@@ -123,9 +123,9 @@ document.addEventListener("DOMContentLoaded", () => {
         isGoingLeft = true
         leftTimerId = setInterval(function () {
             if (doodlerLeftSpace >= 0) {
-                console.log("going to the left")
+                console.log('going left')
                 doodlerLeftSpace -= 5
-                doodler.style.left = doodlerLeftSpace + "px"
+                doodler.style.left = doodlerLeftSpace + 'px'
             } else moveRight()
         }, 20)
     }
@@ -137,10 +137,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         isGoingRight = true
         rightTimerId = setInterval(function () {
-            if (doodlerLeftSpace <= 340) {
-                console.log("going to the right")
+            if (doodlerLeftSpace <= 313) {
+                console.log('going right')
                 doodlerLeftSpace += 5
-                doodler.style.left = doodlerLeftSpace + "px"
+                doodler.style.left = doodlerLeftSpace + 'px'
             } else moveLeft()
         }, 20)
     }
@@ -152,22 +152,22 @@ document.addEventListener("DOMContentLoaded", () => {
         clearInterval(rightTimerId)
     }
 
-    // arrow keys for moving the doodler
+    // assign functions to keyCodes
     function control(e) {
-        doodler.style.bottom = doodlerBottomSpace + "px"
-        if (e.key === "ArrowLeft") {
+        doodler.style.bottom = doodlerBottomSpace + 'px'
+        if (e.key === 'ArrowLeft') {
             moveLeft()
-        } else if (e.key === "ArrowRight") {
+        } else if (e.key === 'ArrowRight') {
             moveRight()
-        } else if (e.key === "ArrowUp") {
+        } else if (e.key === 'ArrowUp') {
             moveStraight()
         }
     }
 
     function gameOver() {
-        console.log("game over")
         isGameOver = true
         while (grid.firstChild) {
+            console.log('remove')
             grid.removeChild(grid.firstChild)
         }
         grid.innerHTML = score
@@ -182,12 +182,11 @@ document.addEventListener("DOMContentLoaded", () => {
             createPlatforms()
             createDoodler()
             setInterval(movePlatforms, 30)
-            jump()
-            document.addEventListener("keyup", control)
+            jump(startPoint)
+            document.addEventListener('keyup', control)
         }
     }
-    // attach to button
     start()
 })
 
-console.log("Welcome to my Doodle Jump game by Drake! Enjoy")
+console.log("Welcome to Doodle Jump Game! Use the arrow keys to move the doodler around the platforms")
