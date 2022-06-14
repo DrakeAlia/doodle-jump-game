@@ -2,12 +2,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.grid')
     const doodler = document.createElement('div')
     let isGameOver = false
+    let speed = 3
     let platformCount = 5
     let platforms = []
     let score = 0
     let doodlerLeftSpace = 50
     let startPoint = 150
     let doodlerBottomSpace = startPoint
+    const gravity = 0.9
     let upTimerId
     let downTimerId
     let isJumping = true
@@ -137,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         isGoingRight = true
         rightTimerId = setInterval(function () {
+            //changed to 313 to fit doodle image
             if (doodlerLeftSpace <= 313) {
                 console.log('going right')
                 doodlerLeftSpace += 5
@@ -152,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(rightTimerId)
     }
 
-    // assign functions to keyCodes
+    //assign functions to keyCodes
     function control(e) {
         doodler.style.bottom = doodlerBottomSpace + 'px'
         if (e.key === 'ArrowLeft') {
@@ -176,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(leftTimerId)
         clearInterval(rightTimerId)
     }
+
 
     function start() {
         if (!isGameOver) {
